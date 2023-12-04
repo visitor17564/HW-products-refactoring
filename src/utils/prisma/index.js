@@ -5,5 +5,5 @@ export const prisma = new PrismaClient({
   log: ["query", "info", "warn", "error"],
 
   // 에러 메시지를 평문이 아닌, 개발자가 읽기 쉬운 형태로 출력해줍니다.
-  errorFormat: "pretty",
+  errorFormat: "pretty"
 }); // PrismaClient 인스턴스를 생성합니다.
