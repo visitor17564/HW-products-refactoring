@@ -16,7 +16,7 @@ export class UsersRepository {
 
   /** 회원가입 */
   createUser = async (email, password) => {
-    // ORM인 Prisma에서 Posts 모델의 create 메서드를 사용해 데이터를 요청
+    // ORM인 Prisma에서 Users 모델의 create 메서드를 사용해 데이터를 요청
     const createdUser = await this.prisma.users.create({
       data: {
         email,
@@ -28,8 +28,8 @@ export class UsersRepository {
   };
 
   /** 내 정보수정 */
-  updateUser = async (password) => {
-    // ORM인 Prisma에서 Posts 모델의 update 메서드를 사용해 데이터를 수정
+  updateUser = async (id, password) => {
+    // ORM인 Prisma에서 Users 모델의 update 메서드를 사용해 데이터를 수정
     const updateUser = await this.prisma.users.update({
       where: {
         id: +id
@@ -43,11 +43,12 @@ export class UsersRepository {
   };
 
   /** 회원탈퇴 */
-  deleteUser = async (id) => {
-    // ORM인 Prisma에서 Posts 모델의 delete 메서드를 사용해 데이터를 삭제
+  deleteUser = async (id, password) => {
+    // ORM인 Prisma에서 Users 모델의 delete 메서드를 사용해 데이터를 삭제
     const deleteUser = await this.prisma.users.delete({
       where: {
-        id: +id
+        id: +id,
+        password
       }
     });
 
