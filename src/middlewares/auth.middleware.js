@@ -5,8 +5,6 @@ const accessTokenSecretKey = process.env.ACCESS_TOKEN_SECRET_KEY;
 
 function verifyAccessToken(token, secretKey) {
   try {
-    console.log(token);
-    console.log(secretKey);
     return jwt.verify(token, secretKey);
   } catch (error) {
     return false;

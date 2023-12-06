@@ -8,7 +8,8 @@ Content-Type: application/json
 {
   "email" : "test@example.com",
   "name" : "test",
-  "password" : "1234"
+  "password" : "1234",
+  "confirmPassword" : "1234"
 }
 
 ### 로그인
@@ -45,3 +46,35 @@ Content-Type: application/json
 {
   "password" : "1234"
 }
+
+// product router
+### 상품등록
+POST {{host}}/api/products
+Content-Type: application/json
+
+{
+  "title" : "test2",
+  "content" : "test2"
+}
+
+### 상품전체조회
+GET {{host}}/api/products
+Content-Type: application/json
+
+### 상품상세조회
+GET {{host}}/api/products/1
+Content-Type: application/json
+
+### 상품수정
+PUT {{host}}/api/products/1
+Content-Type: application/json
+
+{
+  "title" : "test2",
+  "content" : "test2",
+  "status" : "SOLD_OUT"
+}
+
+### 상품삭제
+DELETE {{host}}/api/products/1
+Content-Type: application/json

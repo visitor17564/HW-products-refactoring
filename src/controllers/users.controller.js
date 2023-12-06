@@ -22,7 +22,7 @@ export class UsersController {
       const { email, name, password, confirmPassword } = req.body;
 
       if (!email || !password || !name) throw new Error("InvalidParamsError");
-      if (!validator.validateEmail(email)) throw new Error("NotEmail");
+      if (!validator.isEmail(email)) throw new Error("NotEmail");
       if (!validator.equals(password, confirmPassword)) throw new Error("NotSamePasswords");
 
       // 서비스 계층에 구현된 createUser 로직을 실행합니다.

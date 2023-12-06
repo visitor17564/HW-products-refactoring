@@ -89,7 +89,7 @@ export class ProductsService {
     if (product.author !== id) throw new Error("NoPermission");
 
     // 저장소(Repository)에게 데이터 삭제를 요청합니다.
-    await this.productsRepository.deletePost(productId);
+    await this.productsRepository.deleteProduct(productId);
 
     return {
       productId: product.productId,
