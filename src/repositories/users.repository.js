@@ -6,11 +6,21 @@ export class UsersRepository {
     this.prisma = prisma;
   }
 
-  /** 내 정보조회 */
+  /** 아이디 조회 */
   findUsersById = async (id) => {
     // ORM인 Prisma에서 Users 모델의 findUnique 메서드를 사용해 데이터를 요청
     const users = await prisma.Users.findUnique({
       where: { id: +id }
+    });
+
+    return users;
+  };
+
+  /** 이메일 조회 */
+  findUsersByEmail = async (email) => {
+    // ORM인 Prisma에서 Users 모델의 findUnique 메서드를 사용해 데이터를 요청
+    const users = await prisma.Users.findUnique({
+      where: { email: email }
     });
 
     return users;

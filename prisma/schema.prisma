@@ -10,7 +10,7 @@ datasource db {
 model Users {
   id        Int        @unique @default(autoincrement())
   name      String     @db.VarChar(255)
-  email     String     @db.VarChar(255)
+  email     String     @unique @db.VarChar(255)
   password  String     @db.VarChar(255)
   createdAt DateTime   @default(now()) @db.DateTime(0)
   updatedAt DateTime   @default(now()) @db.DateTime(0)
