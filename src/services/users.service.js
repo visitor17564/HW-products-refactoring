@@ -1,6 +1,15 @@
 import { UsersRepository } from "../repositories/users.repository.js";
 import bcrypt from "bcrypt";
 
+const comparePassword = async (password, hash) => {
+  try {
+    return await bcrypt.compare(password, hash);
+  } catch (error) {
+    console.log(error);
+  }
+  return false;
+};
+
 export class UsersService {
   usersRepository = new UsersRepository();
 
@@ -18,6 +27,10 @@ export class UsersService {
   };
 
   createUser = async (email, name, password) => {
+    // 중복 email 확인
+    const confirmEmail = await this.usersRepository.findUsersByEmail(email);
+    if (confirmEmail) throw new Error("AlreadyExistEmail");
+
     // 비밀번호 hash
     const hashedPassword = await bcrypt.hash(password, 10);
 
@@ -34,13 +47,13 @@ export class UsersService {
     };
   };
 
-  updateUser = async (id, password) => {
+  updateUser = async (id) => {
     // 저장소(Repository)에게 특정 게시글 하나를 요청합니다.
     const user = await this.usersRepository.findUsersById(id);
-    if (!user) throw new Error("존재하지 않는 사용자입니다.");
+    if (!user) throw new Error("NoExistedUser");
 
     // 저장소(Repository)에게 데이터 수정을 요청합니다.
-    await this.usersRepository.updateUser(id, password);
+    await this.usersRepository.updateUser(id);
 
     // 변경된 데이터를 조회합니다.
     const updateUser = await this.usersRepository.findUsersById(id);
@@ -58,10 +71,14 @@ export class UsersService {
   deleteUser = async (id, password) => {
     // 저장소(Repository)에게 특정 게시글 하나를 요청합니다.
     const user = await this.usersRepository.findUsersById(id);
-    if (!user) throw new Error("존재하지 않는 게시글입니다.");
+    if (!user) throw new Error("NoExistedUser");
+
+    // 비밀번호 확인
+    const isValidPass = await comparePassword(password, user.password);
+    if (!isValidPass) throw new Error("NotCorrectPassword");
 
     // 저장소(Repository)에게 데이터 삭제를 요청합니다.
-    await this.productsRepository.deleteUser(id, password);
+    await this.usersRepository.deleteUser(id);
 
     return {
       id: updateUser.id,

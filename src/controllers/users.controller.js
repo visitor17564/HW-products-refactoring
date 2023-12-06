@@ -1,4 +1,5 @@
 import { UsersService } from "../services/users.service.js";
+import validator from "validator";
 
 export class UsersController {
   usersService = new UsersService();
@@ -18,9 +19,11 @@ export class UsersController {
 
   createUser = async (req, res, next) => {
     try {
-      const { email, name, password } = req.body;
+      const { email, name, password, confirmPassword } = req.body;
 
       if (!email || !password || !name) throw new Error("InvalidParamsError");
+      if (!validator.validateEmail(email)) throw new Error("NotEmail");
+      if (!validator.equals(password, confirmPassword)) throw new Error("NotSamePasswords");
 
       // 서비스 계층에 구현된 createUser 로직을 실행합니다.
       const createUser = await this.usersService.createUser(email, name, password);
@@ -33,11 +36,10 @@ export class UsersController {
 
   updateUser = async (req, res, next) => {
     try {
-      const { password } = req.body;
       const id = req.user;
 
       // 서비스 계층에 구현된 updateUser 로직을 실행합니다.
-      const updateUser = await this.usersService.updateUser(id, password);
+      const updateUser = await this.usersService.updateUser(id);
 
       return res.status(200).json({ data: updateUser });
     } catch (err) {
@@ -51,7 +53,7 @@ export class UsersController {
       const id = req.user;
 
       // 서비스 계층에 구현된 deleteUser 로직을 실행합니다.
-      const deleteUser = await this.usersService.deleteUser(postId);
+      const deleteUser = await this.usersService.deleteUser(id, password);
 
       return res.status(200).json({ data: deleteUser });
     } catch (err) {
