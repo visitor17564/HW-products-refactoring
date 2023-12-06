@@ -63,7 +63,7 @@ export class ProductsService {
     // 저장소(Repository)에게 특정 게시글 하나를 요청합니다.
     const product = await this.productsRepository.findProductsById(productId);
     if (!product) throw new Error("NoProduct");
-    if (product.author !== id) throw new Error("NoPermission");
+    if (product.author !== id) throw new Error("Forbidden");
 
     // 저장소(Repository)에게 데이터 수정을 요청합니다.
     await this.productsRepository.updateProduct(productId, title, content, status);
@@ -86,7 +86,7 @@ export class ProductsService {
     // 저장소(Repository)에게 특정 게시글 하나를 요청합니다.
     const product = await this.productsRepository.findProductsById(productId);
     if (!product) throw new Error("NoProduct");
-    if (product.author !== id) throw new Error("NoPermission");
+    if (product.author !== id) throw new Error("Forbidden");
 
     // 저장소(Repository)에게 데이터 삭제를 요청합니다.
     await this.productsRepository.deleteProduct(productId);
