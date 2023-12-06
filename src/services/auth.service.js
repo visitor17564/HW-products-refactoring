@@ -1,5 +1,10 @@
 import { UsersRepository } from "../repositories/users.repository.js";
 import bcrypt from "bcrypt";
+import jwt from "jwt";
+import env from "dotenv";
+env.config();
+
+const accessTokenSecretKey = process.env.ACCESS_TOKEN_SECRET_KEY;
 
 const comparePassword = async (password, hash) => {
   try {
@@ -16,9 +21,15 @@ export class AuthService {
   login = async (email, password) => {
     // 저장소(Repository)에게 특정 유저정보 하나를 요청합니다.
     const user = await this.authRepository.findUsersByEmail(email);
-
+    // 비밀번호 확인
     const isValidPass = await comparePassword(password, user.password);
     if (!isValidPass) throw new Error("비밀번호가 일치하지 않습니다.");
+
+    // jwt 토큰 생성 및 쿠키에 뿌리기
+    const accessToken = jwt.sign({ userId: user.userId, username: user.username }, accessTokenSecretKey, {
+      expiresIn: "1m"
+    });
+    res.cookie("accessToken", accessToken);
 
     return {
       id: user.id,
