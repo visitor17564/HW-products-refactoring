@@ -1,6 +1,6 @@
 import { UsersRepository } from "../repositories/users.repository.js";
 import bcrypt from "bcrypt";
-import jwt from "jwt";
+import jwt from "jsonwebtoken";
 import env from "dotenv";
 env.config();
 
