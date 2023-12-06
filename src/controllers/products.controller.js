@@ -6,8 +6,6 @@ export class ProductsController {
     try {
       // 서비스 계층에 구현된 findAllProducts 로직을 실행합니다.
       const products = await this.productsService.findAllProducts();
-      if (!products) throw new Error("NoProduct");
-
       return res.status(200).json({ data: products });
     } catch (err) {
       next(err);
