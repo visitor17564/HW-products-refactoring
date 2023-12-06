@@ -37,9 +37,11 @@ export class UsersController {
   updateUser = async (req, res, next) => {
     try {
       const id = req.user;
+      const { name, password, confirmPassword } = req.body;
+      if (!validator.equals(password, confirmPassword)) throw new Error("NotSamePasswords");
 
       // 서비스 계층에 구현된 updateUser 로직을 실행합니다.
-      const updateUser = await this.usersService.updateUser(id);
+      const updateUser = await this.usersService.updateUser(id, name, password);
 
       return res.status(200).json({ data: updateUser });
     } catch (err) {

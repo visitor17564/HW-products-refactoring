@@ -6,6 +6,7 @@ export class ProductsService {
   findAllProducts = async () => {
     // 저장소(Repository)에게 데이터를 요청합니다.
     const products = await this.productsRepository.findAllProducts();
+    if (!products) throw new Error("NoProduct");
 
     // 호출한 Post들을 가장 최신 게시글 부터 정렬합니다.
     products.sort((a, b) => {
@@ -29,6 +30,7 @@ export class ProductsService {
   findProductById = async (productId) => {
     // 저장소(Repository)에게 특정 게시글 하나를 요청합니다.
     const product = await this.productsRepository.findProductsById(productId);
+    if (!product) throw new Error("NoProduct");
 
     return {
       productId: product.productId,
@@ -57,16 +59,17 @@ export class ProductsService {
     };
   };
 
-  updateProduct = async (productId, title, content, status) => {
+  updateProduct = async (productId, title, content, status, id) => {
     // 저장소(Repository)에게 특정 게시글 하나를 요청합니다.
-    const product = await this.productsRepository.findProductsById(postId);
-    if (!product) throw new Error("존재하지 않는 게시글입니다.");
+    const product = await this.productsRepository.findProductsById(productId);
+    if (!product) throw new Error("NoProduct");
+    if (product.author !== id) throw new Error("NoPermission");
 
     // 저장소(Repository)에게 데이터 수정을 요청합니다.
     await this.productsRepository.updateProduct(productId, title, content, status);
 
     // 변경된 데이터를 조회합니다.
-    const updateProduct = await this.productsRepository.findProductsById(postId);
+    const updateProduct = await this.productsRepository.findProductsById(productId);
 
     return {
       productId: updateProduct.productId,
@@ -79,10 +82,11 @@ export class ProductsService {
     };
   };
 
-  deleteProduct = async (productId) => {
+  deleteProduct = async (id, productId) => {
     // 저장소(Repository)에게 특정 게시글 하나를 요청합니다.
     const product = await this.productsRepository.findProductsById(productId);
-    if (!product) throw new Error("존재하지 않는 게시글입니다.");
+    if (!product) throw new Error("NoProduct");
+    if (product.author !== id) throw new Error("NoPermission");
 
     // 저장소(Repository)에게 데이터 삭제를 요청합니다.
     await this.productsRepository.deletePost(productId);
