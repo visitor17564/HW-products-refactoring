@@ -17,12 +17,12 @@ export class UsersRepository {
   };
 
   /** 회원가입 */
-  createUser = async (email, password) => {
+  createUser = async (email, hashedPassword) => {
     // ORM인 Prisma에서 Users 모델의 create 메서드를 사용해 데이터를 요청
     const createdUser = await prisma.users.create({
       data: {
         email,
-        password
+        hashedPassword
       }
     });
 
