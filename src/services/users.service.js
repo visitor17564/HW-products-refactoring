@@ -65,7 +65,6 @@ export class UsersService {
       id: updateUser.id,
       name: updateUser.name,
       email: updateUser.email,
-      password: updateUser.password,
       createdAt: updateUser.createdAt,
       updatedAt: updateUser.updatedAt
     };
@@ -84,11 +83,11 @@ export class UsersService {
     await this.usersRepository.deleteUser(id);
 
     return {
-      id: updateUser.id,
-      name: updateUser.name,
-      email: updateUser.email,
-      createdAt: updateUser.createdAt,
-      updatedAt: updateUser.updatedAt
+      id: user.id,
+      name: user.name,
+      email: user.email,
+      createdAt: user.createdAt,
+      updatedAt: user.updatedAt
     };
   };
 }

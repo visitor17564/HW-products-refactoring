@@ -11,7 +11,7 @@ const usersController = new UsersController();
 router.get("/", authMiddleware, usersController.findUsersById);
 
 /** 내 정보 작성 API **/
-router.post("/", authMiddleware, usersController.createUser);
+router.post("/", usersController.createUser);
 
 /** 내 정보 수정 API **/
 router.put("/", authMiddleware, usersController.updateUser);
