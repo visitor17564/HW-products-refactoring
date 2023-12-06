@@ -1,5 +1,6 @@
 @host=http://localhost:3000
 
+// auth, users router
 ### 회원가입
 POST {{host}}/api/users
 Content-Type: application/json
@@ -28,5 +29,19 @@ get {{host}}/api/users
 Content-Type: application/json
 
 ### 내 정보 수정
-get {{host}}/api/users
+PUT {{host}}/api/users
 Content-Type: application/json
+
+{
+  "name" : "test2",
+  "password" : "1234",
+  "confirmPassword" : "1234"
+}
+
+### 내 정보 삭제
+DELETE {{host}}/api/users
+Content-Type: application/json
+
+{
+  "password" : "1234"
+}
