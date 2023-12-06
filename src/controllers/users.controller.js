@@ -18,12 +18,12 @@ export class UsersController {
 
   createUser = async (req, res, next) => {
     try {
-      const { email, password } = req.body;
+      const { email, name, password } = req.body;
 
-      if (!email || !password) throw new Error("InvalidParamsError");
+      if (!email || !password || !name) throw new Error("InvalidParamsError");
 
       // 서비스 계층에 구현된 createUser 로직을 실행합니다.
-      const createUser = await this.usersService.createUser(email, password);
+      const createUser = await this.usersService.createUser(email, name, password);
 
       return res.status(201).json({ data: createUser });
     } catch (err) {
