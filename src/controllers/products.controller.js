@@ -6,6 +6,7 @@ export class ProductsController {
     try {
       // 서비스 계층에 구현된 findAllProducts 로직을 실행합니다.
       const products = await this.productsService.findAllProducts();
+      if (!product) throw new Error("NoProduct");
 
       return res.status(200).json({ data: products });
     } catch (err) {
@@ -46,10 +47,12 @@ export class ProductsController {
     try {
       const { productId } = req.params;
       const { title, content, status } = req.body;
+      if (!title || !content || status) throw new Error("InvalidParamsError");
+
       const id = req.user;
 
       // 서비스 계층에 구현된 updateProduct 로직을 실행합니다.
-      const updateProduct = await this.productsService.updateProduct(productId, title, content, status);
+      const updateProduct = await this.productsService.updateProduct(productId, title, content, status, id);
 
       return res.status(200).json({ data: updateProduct });
     } catch (err) {
@@ -63,7 +66,7 @@ export class ProductsController {
       const id = req.user;
 
       // 서비스 계층에 구현된 deleteProduct 로직을 실행합니다.
-      const deleteProduct = await this.productsService.deleteProduct(postId);
+      const deleteProduct = await this.productsService.deleteProduct(id, postId);
 
       return res.status(200).json({ data: deleteProduct });
     } catch (err) {
