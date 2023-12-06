@@ -40,14 +40,15 @@ export class UsersRepository {
   };
 
   /** 내 정보수정 */
-  updateUser = async (id, password) => {
+  updateUser = async (id, name, hashedPassword) => {
     // ORM인 Prisma에서 Users 모델의 update 메서드를 사용해 데이터를 수정
     const updateUser = await prisma.Users.update({
       where: {
         id: +id
       },
       data: {
-        password
+        name,
+        password: hashedPassword
       }
     });
 

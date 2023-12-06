@@ -47,16 +47,19 @@ export class UsersService {
     };
   };
 
-  updateUser = async (id) => {
+  updateUser = async (id, name, password) => {
     // 저장소(Repository)에게 특정 게시글 하나를 요청합니다.
     const user = await this.usersRepository.findUsersById(id);
     if (!user) throw new Error("NoExistedUser");
 
+    // 비밀번호 hash
+    const hashedPassword = await bcrypt.hash(password, 10);
+
     // 저장소(Repository)에게 데이터 수정을 요청합니다.
-    await this.usersRepository.updateUser(id);
+    await this.usersRepository.updateUser(id, name, hashedPassword);
 
     // 변경된 데이터를 조회합니다.
-    const updateUser = await this.usersRepository.findUsersById(id);
+    const updateUser = await this.usersRepository.findUsersById(id, name, password);
 
     return {
       id: updateUser.id,
