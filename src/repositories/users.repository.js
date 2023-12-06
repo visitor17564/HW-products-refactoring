@@ -9,7 +9,7 @@ export class UsersRepository {
   /** 내 정보조회 */
   findUsersById = async (id) => {
     // ORM인 Prisma에서 Users 모델의 findUnique 메서드를 사용해 데이터를 요청
-    const users = await prisma.users.findUnique({
+    const users = await prisma.Users.findUnique({
       where: { id: +id }
     });
 
@@ -17,22 +17,22 @@ export class UsersRepository {
   };
 
   /** 회원가입 */
-  createUser = async (email, hashedPassword) => {
+  createUser = async (email, name, hashedPassword) => {
     // ORM인 Prisma에서 Users 모델의 create 메서드를 사용해 데이터를 요청
-    const createdUser = await prisma.users.create({
+    const createdUser = prisma.Users.create({
       data: {
         email,
-        hashedPassword
+        name,
+        password: hashedPassword
       }
     });
-
     return createdUser;
   };
 
   /** 내 정보수정 */
   updateUser = async (id, password) => {
     // ORM인 Prisma에서 Users 모델의 update 메서드를 사용해 데이터를 수정
-    const updateUser = await prisma.users.update({
+    const updateUser = await prisma.Users.update({
       where: {
         id: +id
       },
@@ -47,7 +47,7 @@ export class UsersRepository {
   /** 회원탈퇴 */
   deleteUser = async (id, password) => {
     // ORM인 Prisma에서 Users 모델의 delete 메서드를 사용해 데이터를 삭제
-    const deleteUser = await prisma.users.delete({
+    const deleteUser = await prisma.Users.delete({
       where: {
         id: +id,
         password

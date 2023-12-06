@@ -1,14 +1,6 @@
 import { UsersRepository } from "../repositories/users.repository.js";
 import bcrypt from "bcrypt";
-const saltRounds = 10; // bcrypt 비밀번호 hash 라이브러리, 확인을 위한 함수선언
-const comparePassword = async (password, hash) => {
-  try {
-    return await bcrypt.compare(password, hash);
-  } catch (error) {
-    console.log(error);
-  }
-  return false;
-};
+
 export class UsersService {
   usersRepository = new UsersRepository();
 
@@ -25,13 +17,12 @@ export class UsersService {
     };
   };
 
-  createUser = async (email, password) => {
-    // 저장소(Repository)에게 데이터를 요청합니다.
-    const hashedPassword = await bcrypt.hash(password, saltRounds, function (err, hash) {
-      return hash;
-    });
+  createUser = async (email, name, password) => {
+    // 비밀번호 hash
+    const hashedPassword = await bcrypt.hash(password, 10);
 
-    const createUser = await this.usersRepository.createUser(email, hashedPassword);
+    // 저장소(Repository)에게 데이터를 요청합니다.
+    const createUser = await this.usersRepository.createUser(email, name, hashedPassword);
 
     // 비즈니스 로직을 수행한 후 사용자에게 보여줄 데이터를 가공합니다.
     return {
