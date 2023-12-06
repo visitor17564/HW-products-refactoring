@@ -23,7 +23,7 @@ export class AuthService {
     const user = await this.authRepository.findUsersByEmail(email);
     // 비밀번호 확인
     const isValidPass = await comparePassword(password, user.password);
-    if (!isValidPass) throw new Error("비밀번호가 일치하지 않습니다.");
+    if (!isValidPass) throw new Error("NotCorrectPassword");
 
     // jwt 토큰 생성
     const accessToken = jwt.sign({ id: user.id }, accessTokenSecretKey, {

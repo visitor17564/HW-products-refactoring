@@ -55,12 +55,11 @@ export class UsersRepository {
   };
 
   /** 회원탈퇴 */
-  deleteUser = async (id, password) => {
+  deleteUser = async (id) => {
     // ORM인 Prisma에서 Users 모델의 delete 메서드를 사용해 데이터를 삭제
     const deleteUser = await prisma.Users.delete({
       where: {
-        id: +id,
-        password
+        id: +id
       }
     });
 
