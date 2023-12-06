@@ -29,7 +29,7 @@ export class ProductsController {
   createProduct = async (req, res, next) => {
     try {
       const { title, content } = req.body;
-      const { id } = res.locals.user;
+      const id = req.user;
 
       if (!title || !content) throw new Error("InvalidParamsError");
 
@@ -46,7 +46,7 @@ export class ProductsController {
     try {
       const { productId } = req.params;
       const { title, content, status } = req.body;
-      const { id } = res.locals.user;
+      const id = req.user;
 
       // 서비스 계층에 구현된 updateProduct 로직을 실행합니다.
       const updateProduct = await this.productsService.updateProduct(productId, title, content, status);
@@ -60,7 +60,7 @@ export class ProductsController {
   deleteProduct = async (req, res, next) => {
     try {
       const { postId } = req.params;
-      const { id } = res.locals.user;
+      const id = req.user;
 
       // 서비스 계층에 구현된 deleteProduct 로직을 실행합니다.
       const deleteProduct = await this.productsService.deleteProduct(postId);

@@ -1,5 +1,6 @@
 import express from "express";
 import { ProductsController } from "../controllers/products.controller.js";
+import { authMiddleware } from "../middlewares/auth.middleware.js";
 
 const router = express.Router();
 
@@ -13,12 +14,12 @@ router.get("/", productsController.findAllProducts);
 router.get("/:productId", productsController.findProductById);
 
 /** 상품 작성 API **/
-router.post("/", productsController.createProduct);
+router.post("/", authMiddleware, productsController.createProduct);
 
 /** 상품 수정 API **/
-router.put("/:productId", productsController.updateProduct);
+router.put("/:productId", authMiddleware, productsController.updateProduct);
 
 /** 상품 삭제 API **/
-router.delete("/:productId", productsController.deleteProduct);
+router.delete("/:productId", authMiddleware, productsController.deleteProduct);
 
 export default router;

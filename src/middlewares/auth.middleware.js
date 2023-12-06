@@ -18,16 +18,14 @@ const authMiddleware = async (req, res, next) => {
   const [accessTokenType, accessToken] = (reqAccessToken ?? "").split(" ");
   try {
     // 토큰 타입이 일치하지 않을 경우
-    if (accessTokenType !== "Bearer") throw new Error("토큰 타입이 일치하지 않습니다.");
+    if (accessTokenType !== "Bearer") throw new Error("token_error");
 
     // 유효성검사
     const verifiedAccessToken = verifyAccessToken(accessToken, accessTokenSecretKey);
-    console.log(verifiedAccessToken);
     if (verifiedAccessToken) {
       req.user = verifiedAccessToken.id;
-      res.locals.currentUser = verifiedAccessToken.userId;
       next();
-    } else throw new Error("로그인이 필요한 서비스입니다.");
+    } else throw new Error("token_error");
   } catch (err) {
     next(err);
   }

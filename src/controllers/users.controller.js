@@ -5,7 +5,7 @@ export class UsersController {
 
   findUsersById = async (req, res, next) => {
     try {
-      const { id } = res.locals.user;
+      const id = req.user;
 
       // 서비스 계층에 구현된 findUsersById 로직을 실행합니다.
       const user = await this.usersService.findUsersById(id);
@@ -34,7 +34,7 @@ export class UsersController {
   updateUser = async (req, res, next) => {
     try {
       const { password } = req.body;
-      const { id } = res.locals.user;
+      const id = req.user;
 
       // 서비스 계층에 구현된 updateUser 로직을 실행합니다.
       const updateUser = await this.usersService.updateUser(id, password);
@@ -48,7 +48,7 @@ export class UsersController {
   deleteUser = async (req, res, next) => {
     try {
       const { password } = req.body;
-      const { id } = res.locals.user;
+      const id = req.user;
 
       // 서비스 계층에 구현된 deleteUser 로직을 실행합니다.
       const deleteUser = await this.usersService.deleteUser(postId);
