@@ -25,18 +25,18 @@ export class AuthService {
     const isValidPass = await comparePassword(password, user.password);
     if (!isValidPass) throw new Error("비밀번호가 일치하지 않습니다.");
 
-    // jwt 토큰 생성 및 쿠키에 뿌리기
-    const accessToken = jwt.sign({ userId: user.userId, username: user.username }, accessTokenSecretKey, {
+    // jwt 토큰 생성
+    const accessToken = jwt.sign({ id: user.id }, accessTokenSecretKey, {
       expiresIn: "1m"
     });
-    res.cookie("accessToken", accessToken);
 
     return {
       id: user.id,
       name: user.name,
       email: user.email,
       createdAt: user.createdAt,
-      updatedAt: user.updatedAt
+      updatedAt: user.updatedAt,
+      accessToken
     };
   };
 }
