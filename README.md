@@ -7,3 +7,7 @@
 
 yarn
 yarn run dev
+
+# 참고자료
+
+test.http에 테스트 DATA 넣어뒀습니다.
